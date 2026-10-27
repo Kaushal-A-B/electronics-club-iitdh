@@ -88,19 +88,11 @@ export function icon(name, cls = '') {
   );
 }
 
-// the club mark, redrawn as svg so it stays sharp and sits on any background
-export function logoMark(cls = '') {
-  return raw(`<svg class="${cls}" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-    <g stroke="url(#lg)" stroke-width="2.4" stroke-linecap="round">
-      <path d="M23 15V9M32 15V8M41 15V9M23 49v6M32 49v7M41 49v6M15 23H9M15 32H8M15 41H9M49 23h6M49 32h7M49 41h6"/>
-    </g>
-    <g stroke="url(#lg)" stroke-width="2"><circle cx="23" cy="7" r="2"/><circle cx="32" cy="6" r="2"/><circle cx="41" cy="7" r="2"/><circle cx="23" cy="57" r="2"/><circle cx="32" cy="58" r="2"/><circle cx="41" cy="57" r="2"/><circle cx="7" cy="23" r="2"/><circle cx="6" cy="32" r="2"/><circle cx="7" cy="41" r="2"/><circle cx="57" cy="23" r="2"/><circle cx="58" cy="32" r="2"/><circle cx="57" cy="41" r="2"/></g>
-    <rect x="15" y="15" width="34" height="34" rx="6" stroke="url(#lg)" stroke-width="3"/>
-    <rect x="20.5" y="20.5" width="23" height="23" rx="3" fill="url(#lg)" opacity=".92"/>
-    <path class="mark-wave" pathLength="100" d="M22 32c3-9 5-9 7.5 0s4.5 9 7.5 0c1.4-4 2.6-6 5-6" stroke="#05121a" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-  </svg>`);
+// the club mark, cropped from the original logo
+export function logoMark(cls = '', big = false) {
+  const src = big ? 'assets/mark.jpg' : 'assets/icon-96.png';
+  return raw(`<img class="${cls}" src="${src}" alt="" width="${big ? 540 : 96}" height="${big ? 540 : 96}" decoding="async">`);
 }
-
 export const initials = (name = '', fallback = '?') => {
   const p = String(name).trim().split(/\s+/).filter(Boolean);
   if (!p.length) return fallback;

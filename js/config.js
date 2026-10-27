@@ -6,7 +6,7 @@ export const config = {
   supabaseKey: '',
 
   emailDomain: 'iitdh.ac.in',
-  clubName: 'Electronics Club',
+  clubName: 'Electronics Club IITDh',
   college: 'IIT Dharwad',
 
   // shown on the join page and in the footer, leave empty to hide

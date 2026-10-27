@@ -1,25 +1,25 @@
 :root {
-  --bg: #05080c;
-  --bg-2: #080d13;
-  --surface: #0b121a;
-  --surface-2: #111b27;
+  --bg: #010508;
+  --bg-2: #040a10;
+  --surface: #08111a;
+  --surface-2: #0e1a26;
   --line: rgba(160, 190, 220, 0.11);
   --line-strong: rgba(160, 190, 220, 0.22);
   --text: #e9eff6;
   --muted: #8d9bad;
   --faint: #5f6d7e;
 
-  --green: #2be4a0;
-  --cyan: #22d3ee;
-  --blue: #3b82f6;
-  --violet: #8b7bff;
+  --green: #4bd991;
+  --cyan: #34c0b4;
+  --blue: #1f7be8;
+  --violet: #7f8cff;
   --danger: #ff6b7a;
   --warn: #f5c04a;
 
-  --grad: linear-gradient(120deg, #2be4a0 0%, #22cfe9 52%, #3b82f6 100%);
-  --grad-soft: linear-gradient(120deg, rgba(43, 228, 160, 0.16), rgba(34, 207, 233, 0.12) 50%, rgba(59, 130, 246, 0.16));
-  --on-accent: #04110d;
-  --glow: 0 0 40px rgba(34, 207, 233, 0.22);
+  --grad: linear-gradient(120deg, #4bd991 0%, #34c0b4 52%, #1f7be8 100%);
+  --grad-soft: linear-gradient(120deg, rgba(75, 217, 145, 0.16), rgba(52, 192, 180, 0.12) 50%, rgba(31, 123, 232, 0.16));
+  --on-accent: #02100b;
+  --glow: 0 0 40px rgba(52, 192, 180, 0.22);
 
   --radius: 16px;
   --radius-sm: 10px;
@@ -43,10 +43,14 @@
   --text: #0d1722;
   --muted: #4d5c6e;
   --faint: #7d8a9a;
-  --grad: linear-gradient(120deg, #0ca572 0%, #0aa3c4 52%, #2563eb 100%);
-  --grad-soft: linear-gradient(120deg, rgba(12, 165, 114, 0.1), rgba(10, 163, 196, 0.08) 50%, rgba(37, 99, 235, 0.1));
+  --green: #139a61;
+  --cyan: #0f8f86;
+  --blue: #1b62c4;
+  --violet: #5b66e0;
+  --grad: linear-gradient(120deg, #139a61 0%, #12958a 52%, #1b62c4 100%);
+  --grad-soft: linear-gradient(120deg, rgba(19, 154, 97, 0.1), rgba(18, 149, 138, 0.08) 50%, rgba(27, 98, 196, 0.1));
   --on-accent: #ffffff;
-  --glow: 0 0 40px rgba(10, 163, 196, 0.15);
+  --glow: 0 0 40px rgba(18, 149, 138, 0.15);
   --danger: #d6293e;
   --warn: #b7791f;
   color-scheme: light;
@@ -80,7 +84,7 @@ h1, h2, h3, h4 {
   letter-spacing: -0.02em;
 }
 
-::selection { background: rgba(34, 207, 233, 0.35); }
+::selection { background: rgba(52, 192, 180, 0.35); }
 
 :focus-visible {
   outline: 2px solid var(--cyan);

@@ -1,4 +1,4 @@
--- Electronics Club site: database schema, access rules and storage.
+-- Electronics Club IITDh site: database schema, access rules and storage.
 -- Paste this whole file into the Supabase SQL editor and run it once.
 -- It is safe to run again, tables are only created if missing and the
 -- policies are rebuilt from scratch each time.

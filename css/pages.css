@@ -4,7 +4,7 @@
 @keyframes view-in { from { opacity: 0; transform: translateY(14px); } }
 #view > .section:first-child { padding-top: calc(var(--nav-h) + 80px); }
 
-.skip { position: fixed; left: 16px; top: -60px; z-index: 300; padding: 10px 16px; border-radius: 10px; background: var(--cyan); color: #04110d; font-weight: 600; transition: top 0.2s; }
+.skip { position: fixed; left: 16px; top: -60px; z-index: 300; padding: 10px 16px; border-radius: 10px; background: var(--cyan); color: #02100b; font-weight: 600; transition: top 0.2s; }
 .skip:focus { top: 14px; }
 
 .small { font-size: 13.5px; }
@@ -51,9 +51,7 @@
 @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 
 .hero-art { position: relative; aspect-ratio: 1; max-width: 460px; width: 100%; margin-left: auto; display: grid; place-items: center; }
-.hero-mark { width: 62%; position: relative; z-index: 2; filter: drop-shadow(0 0 36px rgba(34, 207, 233, 0.4)); animation: float 7s ease-in-out infinite; }
-.hero-mark .mark-wave, .auth-mark .mark-wave { stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw 2.6s 0.6s var(--ease) forwards; }
-@keyframes draw { to { stroke-dashoffset: 0; } }
+.hero-mark { width: 66%; height: auto; align-self: center; aspect-ratio: 1; position: relative; z-index: 2; border-radius: 32px; object-fit: cover; box-shadow: 0 0 0 1px var(--line-strong), 0 30px 80px -20px rgba(52, 192, 180, 0.45); animation: float 7s ease-in-out infinite; }
 @keyframes float { 50% { transform: translateY(-14px); } }
 .orbit { position: absolute; border-radius: 50%; border: 1px dashed color-mix(in srgb, var(--cyan) 35%, transparent); animation: spin 40s linear infinite; }
 .orbit.o1 { inset: 6%; }
@@ -234,7 +232,7 @@
 .auth::before { content: ''; position: absolute; inset: 0; background: radial-gradient(600px circle at 50% 35%, color-mix(in srgb, var(--cyan) 12%, transparent), transparent 70%); pointer-events: none; }
 .auth-card { position: relative; width: min(440px, 100%); display: grid; gap: 18px; text-align: center; justify-items: center; padding: 40px 36px; }
 .auth-card .btn-block { width: 100%; }
-.auth-mark { width: 84px; height: 84px; filter: drop-shadow(0 0 24px rgba(34, 207, 233, 0.35)); }
+.auth-mark { width: 96px; height: 96px; border-radius: 22px; object-fit: cover; box-shadow: 0 0 0 1px var(--line-strong), 0 16px 40px -12px rgba(52, 192, 180, 0.5); }
 .auth-card .notice { text-align: left; width: 100%; }
 .google { gap: 12px; padding: 14px 22px; }
 .g-badge { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 13px; color: #fff; background: conic-gradient(#ea4335 0 25%, #fbbc05 0 50%, #34a853 0 75%, #4285f4 0); }

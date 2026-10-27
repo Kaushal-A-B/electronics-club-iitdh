@@ -14,14 +14,14 @@
 .nav .wrap { display: flex; align-items: center; gap: 28px; }
 
 .brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.brand-mark { width: 40px; height: 40px; }
+.brand-mark { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; box-shadow: 0 0 0 1px var(--line-strong); }
 .brand-text { display: grid; line-height: 1; gap: 4px; }
-.brand-text b { font-family: var(--font-head); font-weight: 800; font-size: 15px; letter-spacing: 0.06em; }
+.brand-text b { font-family: var(--font-head); font-weight: 800; font-size: 14px; letter-spacing: 0.06em; white-space: nowrap; }
 .brand-text span { font-family: var(--font-head); font-weight: 400; font-size: 10px; letter-spacing: 0.5em; color: var(--cyan); padding-left: 1px; }
 
 .nav-links { display: flex; align-items: center; gap: 4px; margin-left: auto; }
 .nav-links a {
-  position: relative; padding: 8px 14px; font-size: 14.5px; font-weight: 500;
+  position: relative; padding: 8px 13px; font-size: 14.5px; font-weight: 500; white-space: nowrap;
   color: var(--muted); border-radius: 999px; transition: color 0.2s, background 0.2s;
 }
 .nav-links a:hover { color: var(--text); background: var(--surface-2); }
@@ -67,7 +67,7 @@
 .menu-pop a:hover, .menu-pop button:hover { background: var(--surface-2); color: var(--text); }
 .menu-pop svg { width: 16px; height: 16px; }
 
-@media (max-width: 940px) {
+@media (max-width: 1060px) {
   .nav-toggle { display: inline-grid; }
   .nav-links {
     position: fixed; inset: var(--nav-h) 0 auto 0; flex-direction: column; align-items: stretch;
@@ -94,8 +94,8 @@
 .btn:active { transform: scale(0.97); }
 .btn:disabled { opacity: 0.5; pointer-events: none; }
 
-.btn-primary { background: var(--grad); color: var(--on-accent); box-shadow: 0 8px 28px -8px rgba(34, 207, 233, 0.55); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -8px rgba(34, 207, 233, 0.7); }
+.btn-primary { background: var(--grad); color: var(--on-accent); box-shadow: 0 8px 28px -8px rgba(52, 192, 180, 0.55); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -8px rgba(52, 192, 180, 0.7); }
 .btn-primary:hover svg { transform: translateX(2px); }
 .btn-ghost { background: transparent; border-color: var(--line-strong); color: var(--text); }
 .btn-ghost:hover { background: var(--surface-2); border-color: var(--cyan); }
@@ -138,10 +138,10 @@
 @media (max-width: 640px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
 
 /* domain accent colours */
-.d-digital-vlsi { --dc: #22d3ee; }
-.d-analog-vlsi { --dc: #2be4a0; }
-.d-embedded { --dc: #4f8cff; }
-.d-communication { --dc: #8b7bff; }
+.d-digital-vlsi { --dc: #34c0b4; }
+.d-analog-vlsi { --dc: #4bd991; }
+.d-embedded { --dc: #3b8ef0; }
+.d-communication { --dc: #7f8cff; }
 
 .d-icon {
   width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center;

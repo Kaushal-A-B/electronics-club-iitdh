@@ -10,7 +10,7 @@ function rng(seed) {
 // abstract board-like artwork so the gallery has something to show
 export function art(seed, w = 960, h = 640) {
   const r = rng(seed * 7919);
-  const hues = [['#2be4a0', '#22cfe9'], ['#22cfe9', '#3b82f6'], ['#3b82f6', '#8b7bff'], ['#2be4a0', '#3b82f6']];
+  const hues = [['#4bd991', '#34c0b4'], ['#34c0b4', '#1f7be8'], ['#1f7be8', '#7f8cff'], ['#4bd991', '#1f7be8']];
   const [c1, c2] = hues[seed % hues.length];
   let lines = '';
   for (let i = 0; i < 26; i++) {

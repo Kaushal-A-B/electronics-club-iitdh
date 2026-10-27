@@ -52,7 +52,7 @@ function renderNav() {
     <div class="wrap">
       <a href="#/" class="brand" aria-label="${config.clubName} home">
         ${logoMark('brand-mark')}
-        <span class="brand-text"><b>ELECTRONICS</b><span>CLUB</span></span>
+        <span class="brand-text"><b>ELECTRONICS CLUB</b><span>IITDh</span></span>
       </a>
       <nav class="nav-links" id="nav-links" aria-label="Main">
         ${links.map(([p, label]) => html`<a href="#${p}" class="${active(p) ? 'active' : ''}">${label}</a>`)}
@@ -106,7 +106,7 @@ function renderFooter() {
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-about">
-          <a href="#/" class="brand">${logoMark('brand-mark')}<span class="brand-text"><b>ELECTRONICS</b><span>CLUB</span></span></a>
+          <a href="#/" class="brand">${logoMark('brand-mark')}<span class="brand-text"><b>ELECTRONICS CLUB</b><span>IITDh</span></span></a>
           <p class="muted">The student electronics club at ${config.college}. Digital and analog VLSI, embedded systems and communication systems.</p>
         </div>
         <div><h4>Explore</h4><ul>
@@ -122,7 +122,7 @@ function renderFooter() {
           ${config.instagram ? html`<li><a href="${config.instagram}" target="_blank" rel="noopener">Instagram</a></li>` : ''}
         </ul></div>
       </div>
-      <div class="foot-base"><span>&copy; ${year} ${config.clubName}, ${config.college}</span><span class="mono faint">Built by club members</span></div>
+      <div class="foot-base"><span>&copy; ${year} ${config.clubName}</span><span class="mono faint">Built by club members</span></div>
     </div>`);
 }
 
@@ -183,7 +183,7 @@ async function render(keepScroll = false) {
   }
   if (my !== token) return;
 
-  document.title = page.title ? `${page.title} | ${config.clubName}` : `${config.clubName} | ${config.college}`;
+  document.title = page.title ? `${page.title} | ${config.clubName}` : config.clubName;
   setHtml(view, page.html);
   view.classList.remove('enter');
   void view.offsetWidth;

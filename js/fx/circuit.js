@@ -54,7 +54,7 @@ export function startCircuit(canvas) {
     still.width = w * dpr; still.height = h * dpr;
     sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     sctx.clearRect(0, 0, w, h);
-    const base = light() ? '10,140,170' : '34,207,233';
+    const base = light() ? '15,143,134' : '52,192,180';
     sctx.lineWidth = 1.2;
     sctx.lineJoin = 'round';
     paths.forEach((p) => {
@@ -83,7 +83,7 @@ export function startCircuit(canvas) {
       if (p) paths.push(p);
     }
     pulses = paths.filter(() => Math.random() < 0.55).map((p) => ({
-      p, pos: rand(-p.total, p.total), speed: rand(70, 150), tail: rand(60, 120), hue: Math.random() < 0.5 ? '43,228,160' : Math.random() < 0.5 ? '34,207,233' : '59,130,246',
+      p, pos: rand(-p.total, p.total), speed: rand(70, 150), tail: rand(60, 120), hue: Math.random() < 0.5 ? '75,217,145' : Math.random() < 0.5 ? '52,192,180' : '31,123,232',
     }));
     paintStill();
     draw(0);

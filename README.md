@@ -1,6 +1,6 @@
-# Electronics Club website
+# Electronics Club IITDh website
 
-Website for the Electronics Club at IIT Dharwad. The club has four domains (Digital VLSI, Analog VLSI, Embedded Systems, Communication Systems), a secretary, a deputy secretary and a lead for each domain.
+Website for Electronics Club IITDh, the electronics club at IIT Dharwad. The club has four domains (Digital VLSI, Analog VLSI, Embedded Systems, Communication Systems), a secretary, a deputy secretary and a lead for each domain.
 
 It is a static site, so it is hosted on GitHub Pages for free. The small amount of live data (members, projects, photos, approvals) sits in a Supabase project.
 
@@ -61,7 +61,7 @@ js/store/           data layer: live.js (Supabase) and preview.js (browser stora
 js/views/           one file per page, js/views/admin for the console
 js/editors.js       the add and edit dialogs used on public pages and in the console
 supabase/schema.sql tables, security rules, storage
-assets/             logo and favicon
+assets/             logo (original upload, cleaned and enlarged copies), icons
 ```
 
 ## Notes
