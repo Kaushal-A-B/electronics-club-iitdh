@@ -415,9 +415,22 @@ create policy media_avatar_drop on storage.objects for delete to authenticated
   using (bucket_id = 'media' and (storage.foldername(name))[1] = 'avatars' and (storage.foldername(name))[2] = auth.uid()::text);
 
 -- ---------------------------------------------------------------------------
--- first admin
+-- starting roster
 -- ---------------------------------------------------------------------------
 
+-- admins
 insert into public.members (email, role)
 values ('ee23bt041@iitdh.ac.in', 'admin')
+on conflict (email) do nothing;
+
+-- the club account is the secretary's login
+insert into public.members (email, role, name, batch, branch, domains, position)
+values ('electronicsclub@iitdh.ac.in', 'admin', 'Maanas Khatokar N', '2024', 'Electronics and Communication Engineering', '{digital-vlsi}', 'Secretary')
+on conflict (email) do update
+  set role = 'admin', name = excluded.name, batch = excluded.batch, branch = excluded.branch,
+      domains = excluded.domains, position = excluded.position;
+
+-- members
+insert into public.members (email, role, roll_no, batch)
+values ('ee25bt004@iitdh.ac.in', 'member', 'EE25BT004', '2025')
 on conflict (email) do nothing;

@@ -32,7 +32,7 @@ Preview mode switches off by itself once `js/config.js` has the Supabase details
 You need a free Supabase account and a Google account (the college one works best).
 
 1. **Create the project.** On supabase.com make a new project and wait for it to finish setting up.
-2. **Load the schema.** Open the SQL editor, paste the whole of `supabase/schema.sql` and run it. This creates the tables, the access rules, the image bucket and the first admin (`ee23bt041@iitdh.ac.in`). It also blocks any non college email from ever creating an account.
+2. **Load the schema.** Open the SQL editor, paste the whole of `supabase/schema.sql` and run it. This creates the tables, the access rules, the image bucket and the starting roster: admins `ee23bt041@iitdh.ac.in` and `electronicsclub@iitdh.ac.in` (the secretary's login), and member `ee25bt004@iitdh.ac.in`. It also blocks any non college email from ever creating an account.
 3. **Turn on Google sign in.**
    - In the Google Cloud console create an OAuth client of type Web application. If you create the project while signed in with a college account you can set the user type to Internal, which limits sign in to the institute.
    - Add `https://<your-project-ref>.supabase.co/auth/v1/callback` as an authorised redirect URI.

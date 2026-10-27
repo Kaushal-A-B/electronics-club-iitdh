@@ -2,7 +2,7 @@ import { config } from '../config.js';
 import { uid, resizeImage, blobToDataUrl } from '../util.js';
 import { buildSeed } from './seed.js';
 
-const KEY = 'ec-preview-v1';
+const KEY = 'ec-preview-v2';
 const PROFILE_KEYS = ['name', 'roll_no', 'branch', 'batch', 'bio', 'skills', 'domains', 'github', 'linkedin', 'avatar_url'];
 
 // same shape as the live store, backed by localStorage so the whole site

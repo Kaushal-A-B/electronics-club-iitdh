@@ -52,6 +52,7 @@ export const POSITIONS = ['Secretary', 'Deputy Secretary', 'Lead'];
 
 export const BRANCHES = [
   'Electrical Engineering',
+  'Electronics and Communication Engineering',
   'Computer Science and Engineering',
   'Mechanical Engineering',
   'Civil Engineering',
