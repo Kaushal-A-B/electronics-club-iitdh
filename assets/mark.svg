@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="44 21 113 113" fill="none">
+  <defs>
+    <linearGradient id="g" x1="56" y1="120" x2="145" y2="33" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1468ea"/>
+      <stop offset="0.5" stop-color="#34b2b4"/>
+      <stop offset="1" stop-color="#62e386"/>
+    </linearGradient>
+    <linearGradient id="gs" x1="78" y1="99.5" x2="123.5" y2="53" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1068f0"/>
+      <stop offset="0.5" stop-color="#2cb3bc"/>
+      <stop offset="1" stop-color="#58e68a"/>
+    </linearGradient>
+    <linearGradient id="gb" x1="68" y1="109" x2="133" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1c6fe0"/>
+      <stop offset="0.5" stop-color="#32b0b8"/>
+      <stop offset="1" stop-color="#66e08a"/>
+    </linearGradient>
+    <clipPath id="screen"><rect x="78" y="53" width="45.5" height="46.5" rx="3"/></clipPath>
+  </defs>
+  <rect x="44" y="21" width="113" height="113" fill="#010508"/>
+  <g stroke="url(#g)" stroke-width="2.1">
+    <circle cx="79.5" cy="33" r="3.6"/><circle cx="100.5" cy="33" r="3.6"/><circle cx="121.5" cy="33" r="3.6"/>
+    <circle cx="79.5" cy="120" r="3.6"/><circle cx="100.5" cy="120" r="3.6"/><circle cx="121.5" cy="120" r="3.6"/>
+    <circle cx="56.5" cy="58" r="3.6"/><circle cx="56.5" cy="76.5" r="3.6"/><circle cx="56.5" cy="95" r="3.6"/>
+    <circle cx="144.5" cy="58" r="3.6"/><circle cx="144.5" cy="76.5" r="3.6"/><circle cx="144.5" cy="95" r="3.6"/>
+    <path d="M79.5 36.6V44M100.5 36.6V44M121.5 36.6V44M79.5 109v7.4M100.5 109v7.4M121.5 109v7.4M60.1 58H68M60.1 76.5H68M60.1 95H68M133 58h7.9M133 76.5h7.9M133 95h7.9"/>
+  </g>
+  <path fill="url(#gb)" fill-rule="evenodd" d="M74 44h53a6 6 0 0 1 6 6v53a6 6 0 0 1-6 6H74a6 6 0 0 1-6-6V50a6 6 0 0 1 6-6Zm2.500 5.200a3 3 0 0 0-3 3v48a3 3 0 0 0 3 3h48a3 3 0 0 0 3-3v-48a3 3 0 0 0-3-3Z"/>
+  <rect x="78" y="53" width="45.5" height="46.5" rx="3" fill="url(#gs)"/>
+  <path clip-path="url(#screen)" d="M76 86C80 72 84.5 61.6 89.5 61.6C95 61.6 96 69 100.6 75.5C105 82 107 90.7 113 90.7C119 90.7 121 86 126 79" stroke="#031019" stroke-width="4.5" stroke-linecap="round"/>
+</svg>

@@ -43,7 +43,7 @@ export default async function home({ store, session, role }) {
         </div>
         <div class="hero-art rise" style="--i:3" aria-hidden="true">
           <div class="orbit o1"></div><div class="orbit o2"></div>
-          ${logoMark('hero-mark', true)}
+          ${logoMark('hero-mark')}
           <span class="float-tag f1">Verilog</span>
           <span class="float-tag f2">SPICE</span>
           <span class="float-tag f3">STM32</span>

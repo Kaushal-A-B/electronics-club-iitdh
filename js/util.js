@@ -89,9 +89,8 @@ export function icon(name, cls = '') {
 }
 
 // the club mark, cropped from the original logo
-export function logoMark(cls = '', big = false) {
-  const src = big ? 'assets/mark.jpg' : 'assets/icon-96.png';
-  return raw(`<img class="${cls}" src="${src}" alt="" width="${big ? 540 : 96}" height="${big ? 540 : 96}" decoding="async">`);
+export function logoMark(cls = '') {
+  return raw(`<img class="${cls}" src="assets/mark.svg" alt="" width="113" height="113">`);
 }
 export const initials = (name = '', fallback = '?') => {
   const p = String(name).trim().split(/\s+/).filter(Boolean);
