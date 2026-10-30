@@ -15,15 +15,21 @@ language sql stable as $$
 $$;
 
 -- the two checks below read the roster with owner rights so the policies
--- on the roster itself do not call themselves
+-- on the roster itself do not call themselves. They are plpgsql on purpose,
+-- plain sql functions are checked when created and the members table does
+-- not exist yet at this point.
 create or replace function public.is_member() returns boolean
-language sql stable security definer set search_path = public as $$
-  select exists (select 1 from public.members where email = public.auth_email())
+language plpgsql stable security definer set search_path = public as $$
+begin
+  return exists (select 1 from public.members where email = public.auth_email());
+end
 $$;
 
 create or replace function public.is_admin() returns boolean
-language sql stable security definer set search_path = public as $$
-  select exists (select 1 from public.members where email = public.auth_email() and role = 'admin')
+language plpgsql stable security definer set search_path = public as $$
+begin
+  return exists (select 1 from public.members where email = public.auth_email() and role = 'admin');
+end
 $$;
 
 -- ---------------------------------------------------------------------------
