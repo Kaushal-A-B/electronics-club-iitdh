@@ -61,11 +61,13 @@ js/store/           data layer: live.js (Supabase) and preview.js (browser stora
 js/views/           one file per page, js/views/admin for the console
 js/editors.js       the add and edit dialogs used on public pages and in the console
 supabase/schema.sql tables, security rules, storage
+tools/              stamp.ps1, the version stamp described in the notes below
 assets/             logo (original upload, cleaned and enlarged copies), icons
 ```
 
 ## Notes
 
+- GitHub Pages lets browsers keep files for ten minutes. After changing anything in js/ or css/, run 	ools/stamp.ps1 before committing so every file gets a new version in its address and nobody keeps running old code.
 - Supabase pauses free projects after a week without activity. If the site stops loading data after the holidays, unpause it from the dashboard.
 - Uploaded photos are shrunk in the browser before upload, so the free storage quota goes a long way.
 - Pages use hash addresses (`#/projects`) so GitHub Pages does not need any rewrite rules.
