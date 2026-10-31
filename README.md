@@ -19,7 +19,7 @@ It is a static site, so it is hosted on GitHub Pages for free. The small amount 
 
 Admins also get Edit and Delete buttons directly on the public Projects, Gallery and Events pages.
 
-How joining works: membership is by invitation. An admin adds a student's college email on the Members and admins page of the Admin console. Only emails on that list can sign in, anyone else is turned away with a message, and the database refuses to create an account for them. A new member's name starts as the first part of their email, and their first profile and every later edit is reviewed by an admin before it is shown to anyone else.
+How joining works: membership is by invitation. An admin adds a student's college email on the Members and admins page of the Admin console. Only emails on that list can sign in, anyone else is turned away with a message, and the database refuses to create an account for them. A new member's name is filled in from their Google account the first time they sign in (until then it shows the first part of their email), and their first profile and every later edit is reviewed by an admin before it is shown to anyone else.
 
 ## Preview mode
 

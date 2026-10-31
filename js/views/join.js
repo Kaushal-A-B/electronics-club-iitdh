@@ -5,7 +5,7 @@ import { pageHeader } from './shared.js';
 const STEPS = [
   ['Ask an admin', `Send your @${config.emailDomain} address to the secretary or any club admin. They add it to the member list.`],
   ['Sign in with Google', `Use that same @${config.emailDomain} account. Any other email is turned away.`],
-  ['Fill in your profile', 'Your name starts as the first part of your email. Add your details and an admin approves them before anyone else sees them.'],
+  ['Fill in your profile', 'Your name comes from your Google account. Add your details and an admin approves them before anyone else sees them.'],
 ];
 
 export default async function join({ session, role }) {

@@ -177,7 +177,7 @@ export function editMember(member) {
     submitLabel: editing ? 'Save changes' : 'Add to roster',
     fields: [
       { name: 'email', label: 'College email', type: 'email', required: true, readonly: editing, full: true, placeholder: `name@${config.emailDomain}` },
-      { name: 'name', label: 'Name', max: 80, hint: 'Leave empty to use the first part of their email.' },
+      { name: 'name', label: 'Name', max: 80, hint: 'Leave empty and it fills in from their Google account when they first sign in.' },
       { name: 'branch', label: 'Branch', type: 'select', options: BRANCHES, blank: 'Not set' },
       { name: 'role', label: 'Access level', type: 'select', required: true, options: [{ value: 'member', label: 'Member' }, { value: 'admin', label: 'Admin' }] },
       { name: 'position', label: 'Club position', type: 'select', options: POSITIONS, blank: 'None' },

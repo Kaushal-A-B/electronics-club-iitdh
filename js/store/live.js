@@ -36,7 +36,13 @@ export async function createLiveStore() {
     state.user = user;
     state.member = null;
     if (user) {
-      const { data } = await sb.from('members').select('*').eq('email', user.email.toLowerCase()).maybeSingle();
+      const email = user.email.toLowerCase();
+      const lookup = () => sb.from('members').select('*').eq('email', email).maybeSingle();
+      let { data } = await lookup();
+      // new members start with their email name, swap it for the Google account name once
+      if (data && data.name === email.split('@')[0]) {
+        try { await sb.rpc('sync_google_name'); ({ data } = await lookup()); } catch { /* keeps the placeholder */ }
+      }
       const college = user.email.toLowerCase().endsWith('@' + config.emailDomain);
       if (!data || !college) {
         // signed in with google but nobody added this email to the roster

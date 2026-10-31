@@ -293,6 +293,21 @@ begin
 end
 $$;
 
+-- first sign in: swap the email-name placeholder for the name on the Google account.
+-- only fills a placeholder, a name an admin or member has set is never touched.
+create or replace function public.sync_google_name() returns void
+language plpgsql security definer set search_path = public as $$
+declare
+  me text := public.auth_email();
+  g text := nullif(btrim(coalesce(auth.jwt() -> 'user_metadata' ->> 'full_name', auth.jwt() -> 'user_metadata' ->> 'name', '')), '');
+begin
+  if g is null or me = '' then return; end if;
+  if g = upper(g) then g := initcap(lower(g)); end if;
+  update public.members
+     set name = left(g, 80)
+   where email = me and (name is null or btrim(name) = '' or name = split_part(email, '@', 1));
+end
+$$;
 -- numbers for the public home page, nothing personal in here
 create or replace function public.public_stats() returns jsonb
 language sql stable security definer set search_path = public as $$
@@ -310,8 +325,10 @@ create or replace view public.public_team as
   from public.members
   where position is not null;
 
+revoke execute on function public.sync_google_name() from public, anon;
 revoke execute on function public.submit_profile_change(jsonb) from public, anon;
 revoke execute on function public.review_profile_change(uuid, boolean, text) from public, anon;
+grant execute on function public.sync_google_name() to authenticated;
 grant execute on function public.submit_profile_change(jsonb) to authenticated;
 grant execute on function public.review_profile_change(uuid, boolean, text) to authenticated;
 grant execute on function public.public_stats() to anon, authenticated;
