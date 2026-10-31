@@ -109,6 +109,15 @@ export async function createLiveStore() {
     photos: () => run(sb.from('photos').select('*').order('created_at', { ascending: false })),
     events: () => run(sb.from('events').select('*').order('starts_at')),
 
+    // site text edited from the admin console, falls back to the built in text if it can't be read
+    async content() {
+      try {
+        const row = await run(sb.from('site_content').select('value').eq('key', 'home').maybeSingle());
+        return row?.value || {};
+      } catch { return {}; }
+    },
+    saveContent: (value) => run(sb.from('site_content').upsert({ key: 'home', value, updated_at: new Date().toISOString(), updated_by: state.user.email.toLowerCase() })),
+
     /* members */
     announcements: () => run(sb.from('announcements').select('*').order('pinned', { ascending: false }).order('created_at', { ascending: false })),
     resources: () => run(sb.from('resources').select('*').order('created_at', { ascending: false })),

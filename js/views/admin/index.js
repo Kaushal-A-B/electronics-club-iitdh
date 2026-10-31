@@ -3,6 +3,7 @@ import { observeReveals } from '../../ui.js';
 
 const SECTIONS = [
   ['overview', 'Overview', 'dash'],
+  ['homepage', 'Homepage text', 'edit'],
   ['members', 'Members and admins', 'users'],
   ['approvals', 'Approvals', 'inbox'],
   ['projects', 'Projects', 'folder'],
@@ -15,6 +16,7 @@ const SECTIONS = [
 
 const loaders = {
   overview: () => import('./overview.js'),
+  homepage: () => import('./homepage.js'),
   members: () => import('./members.js'),
   approvals: () => import('./approvals.js'),
   projects: () => import('./content.js'),

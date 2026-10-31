@@ -41,6 +41,7 @@
 
 /* ---------- hero ---------- */
 .hero { position: relative; padding: calc(var(--nav-h) + 56px) 0 56px; overflow: hidden; min-height: min(100svh, 920px); display: flex; flex-direction: column; justify-content: center; }
+.edit-home { position: absolute; top: calc(var(--nav-h) + 16px); right: 24px; z-index: 6; }
 .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.9; mask-image: radial-gradient(ellipse 90% 80% at 60% 40%, #000 30%, transparent 85%); -webkit-mask-image: radial-gradient(ellipse 90% 80% at 60% 40%, #000 30%, transparent 85%); }
 .hero-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(520px circle at var(--hx, 72%) var(--hy, 30%), color-mix(in srgb, var(--cyan) 15%, transparent), transparent 70%), radial-gradient(700px circle at 8% 90%, color-mix(in srgb, var(--green) 9%, transparent), transparent 70%); }
 .hero-grid { position: relative; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }

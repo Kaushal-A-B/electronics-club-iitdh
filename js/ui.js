@@ -54,6 +54,7 @@ export function confirmDialog({ title, message, confirmLabel = 'Confirm', danger
 
 /* ---------- generic form dialog ---------- */
 function fieldHtml(f, v) {
+  if (f.type === 'heading') return html`<h4 class="mini-title form-section">${f.label}</h4>`;
   const id = `f_${f.name}`;
   const req = f.required ? raw('<span class="req">*</span>') : '';
   const hint = f.hint ? html`<span class="hint">${f.hint}</span>` : '';
@@ -97,6 +98,10 @@ function fieldHtml(f, v) {
       control = html`<input class="input" id="${id}" type="datetime-local" name="${f.name}" value="${toLocalInput(v)}" ${raw(f.required ? 'required' : '')}>`;
       break;
     default:
+      if (f.type === 'tags' && f.rows) {
+        control = html`<textarea class="textarea" id="${id}" name="${f.name}" rows="${f.rows}" maxlength="2000">${Array.isArray(v) ? v.join(', ') : v ?? ''}</textarea>`;
+        break;
+      }
       control = html`<input class="input" id="${id}" type="${!f.type || f.type === 'tags' ? 'text' : f.type}" name="${f.name}" value="${f.type === 'tags' && Array.isArray(v) ? v.join(', ') : v ?? ''}" maxlength="${f.max || 200}" placeholder="${f.placeholder || ''}" ${raw(f.required ? 'required' : '')} ${raw(ro)} ${f.type === 'number' ? raw('step="any"') : ''}>`;
   }
   return html`<div class="${cls}"><label for="${id}">${f.label}${req}</label>${control}${hint}</div>`;
@@ -106,6 +111,7 @@ function readForm(form, fields, values) {
   const fd = new FormData(form);
   const out = {};
   for (const f of fields) {
+    if (f.type === 'heading') continue;
     switch (f.type) {
       case 'chips': out[f.name] = fd.getAll(f.name); break;
       case 'switch': out[f.name] = fd.get(f.name) === 'on'; break;

@@ -135,6 +135,14 @@ create table if not exists public.resources (
   created_at   timestamptz not null default now()
 );
 
+-- text on the home page that admins can edit, one row per page area
+create table if not exists public.site_content (
+  key         text primary key,
+  value       jsonb not null default '{}',
+  updated_at  timestamptz not null default now(),
+  updated_by  text
+);
+
 create table if not exists public.activity_log (
   id      bigint generated always as identity primary key,
   actor   text,
@@ -211,7 +219,7 @@ declare r jsonb;
 begin
   if tg_op = 'DELETE' then r := to_jsonb(old); else r := to_jsonb(new); end if;
   insert into public.activity_log (actor, action, target)
-  values (public.auth_email(), tg_op || ' ' || tg_table_name, coalesce(r ->> 'title', r ->> 'email', r ->> 'caption', r ->> 'id'));
+  values (public.auth_email(), tg_op || ' ' || tg_table_name, coalesce(r ->> 'title', r ->> 'email', r ->> 'caption', r ->> 'key', r ->> 'id'));
   if tg_op = 'DELETE' then return old; end if;
   return new;
 end
@@ -220,7 +228,7 @@ $$;
 do $$
 declare t text;
 begin
-  foreach t in array array['members', 'projects', 'photos', 'events', 'announcements', 'resources'] loop
+  foreach t in array array['members', 'projects', 'photos', 'events', 'announcements', 'resources', 'site_content'] loop
     execute format('drop trigger if exists log_%1$s on public.%1$I', t);
     execute format('create trigger log_%1$s after insert or update or delete on public.%1$I for each row execute function public.log_change()', t);
   end loop;
@@ -346,6 +354,7 @@ alter table public.events          enable row level security;
 alter table public.event_rsvps     enable row level security;
 alter table public.announcements   enable row level security;
 alter table public.resources       enable row level security;
+alter table public.site_content    enable row level security;
 alter table public.activity_log    enable row level security;
 
 do $$
@@ -372,6 +381,9 @@ create policy photos_read    on public.photos   for select to anon, authenticate
 create policy photos_admin   on public.photos   for all    to authenticated using (public.is_admin()) with check (public.is_admin());
 create policy events_read    on public.events   for select to anon, authenticated using (true);
 create policy events_admin   on public.events   for all    to authenticated using (public.is_admin()) with check (public.is_admin());
+
+create policy content_read  on public.site_content for select to anon, authenticated using (true);
+create policy content_admin on public.site_content for all    to authenticated using (public.is_admin()) with check (public.is_admin());
 
 -- members only content
 create policy announcements_read  on public.announcements for select to authenticated using (public.is_member());

@@ -3,6 +3,7 @@ import { config } from './config.js';
 import { DOMAINS, POSITIONS, BRANCHES } from './domains.js';
 import { openForm, openModal, toast } from './ui.js';
 import { esc, $, icon } from './util.js';
+import { homeFields, homeContent, toFormValues, fromFormValues } from './content.js';
 
 const domainOptions = DOMAINS.map((d) => ({ value: d.slug, label: d.name }));
 
@@ -197,6 +198,21 @@ export function editMember(member) {
         await store.addMember({ ...v, email });
         toast('Member added');
       }
+    },
+  });
+}
+
+export async function editHomepage(saved) {
+  return openForm({
+    title: 'Edit homepage text',
+    size: 'wide',
+    intro: 'Change any of the text on the home page. Empty a box and the original text comes back.',
+    values: toFormValues(homeContent(saved)),
+    submitLabel: 'Save text',
+    fields: homeFields(),
+    async onSubmit(v) {
+      await store.saveContent(fromFormValues(v));
+      toast('Homepage updated');
     },
   });
 }

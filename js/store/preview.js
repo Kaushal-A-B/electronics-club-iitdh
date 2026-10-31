@@ -97,6 +97,14 @@ export async function createPreviewStore() {
     async photos() { return clone(db.photos).sort((a, b) => b.created_at.localeCompare(a.created_at)); },
     async events() { return clone(db.events).sort((a, b) => a.starts_at.localeCompare(b.starts_at)); },
 
+    async content() { return clone((db.site_content || {}).home || {}); },
+    async saveContent(value) {
+      needRole('admin');
+      db.site_content = { ...(db.site_content || {}), home: value };
+      log('UPDATE site_content', 'homepage text');
+      persist();
+    },
+
     /* members */
     async announcements() { needRole(); return clone(db.announcements).sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.created_at.localeCompare(a.created_at)); },
     async resources() { needRole(); return clone(db.resources); },

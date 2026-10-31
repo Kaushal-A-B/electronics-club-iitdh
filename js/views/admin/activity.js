@@ -8,6 +8,7 @@ const NOUN = {
   announcements: 'announcement',
   resources: 'resource',
   profile: 'profile change',
+  site_content: 'site text',
 };
 const VERB = { INSERT: 'Added', UPDATE: 'Updated', DELETE: 'Removed', APPROVE: 'Approved', REJECT: 'Rejected' };
 

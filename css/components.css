@@ -199,6 +199,8 @@
 .input[readonly] { opacity: 0.65; }
 .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
 .form-grid .full { grid-column: 1 / -1; }
+.form-grid .form-section { grid-column: 1 / -1; margin: 10px 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
+.form-grid .form-section:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
 @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
 
 .chip-pick { display: flex; flex-wrap: wrap; gap: 8px; }
