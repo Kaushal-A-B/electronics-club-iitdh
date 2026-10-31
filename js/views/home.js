@@ -38,7 +38,7 @@ export default async function home({ store, session, role }) {
           <p class="lead rise" style="--i:5">Four domains, one lab bench and a steady supply of half soldered ideas. Come and build something with us.</p>
           <div class="row row-wrap rise" style="--i:6;margin-top:10px">
             <a class="btn btn-primary" href="#/projects">See what we build ${icon('arrow')}</a>
-            ${session ? html`<a class="btn btn-ghost" href="#/app">${role ? 'Members area' : 'Request to join'}</a>` : html`<a class="btn btn-ghost" href="#/join">Join the club</a>`}
+            ${role ? html`<a class="btn btn-ghost" href="#/app">Members area</a>` : html`<a class="btn btn-ghost" href="#/join">Join the club</a>`}
           </div>
         </div>
         <div class="hero-art rise" style="--i:3" aria-hidden="true">
@@ -120,10 +120,10 @@ export default async function home({ store, session, role }) {
         <div class="cta reveal">
           <div class="cta-copy">
             <h2 class="title-lg">Part of ${config.college}? Come build with us.</h2>
-            <p class="lead">Sign in with your college email and request a place on the roster. Members get the resources library, the directory and first call on lab time.</p>
+            <p class="lead">Ask an admin to add your college email, then sign in. Members get the resources library, the directory and first call on lab time.</p>
           </div>
           <div class="row row-wrap">
-            ${session ? html`<a class="btn btn-primary" href="${role ? '#/app' : '#/join'}">${role ? 'Open dashboard' : 'Request to join'} ${icon('arrow')}</a>` : html`<a class="btn btn-primary" href="#/signin">Sign in ${icon('arrow')}</a><a class="btn btn-ghost" href="#/join">How joining works</a>`}
+            ${role ? html`<a class="btn btn-primary" href="#/app">Open dashboard ${icon('arrow')}</a>` : html`<a class="btn btn-primary" href="#/signin">Sign in ${icon('arrow')}</a><a class="btn btn-ghost" href="#/join">How joining works</a>`}
           </div>
         </div>
       </div>

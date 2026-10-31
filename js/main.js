@@ -46,6 +46,7 @@ function renderNav() {
   const links = [...PUBLIC_LINKS];
   if (role) links.push(['/app', 'Members area']);
   else links.push(['/join', 'Join']);
+  if (role === 'admin') links.push(['/admin', 'Admin']);
 
   const theme = document.documentElement.dataset.theme === 'light' ? 'sun' : 'moon';
   setHtml($('#nav'), html`
@@ -64,7 +65,7 @@ function renderNav() {
               <button class="user-chip" id="user-chip" aria-haspopup="true">${avatar({ name: s.name, avatar_url: s.avatar_url })}<span class="name">${s.name}</span></button>
               <div class="menu-pop" role="menu">
                 <div class="who"><b>${s.name}</b><small>${s.email}</small><div style="margin-top:8px">${role === 'admin' ? html`<span class="badge info">Admin</span>` : role ? html`<span class="badge ok">Member</span>` : html`<span class="badge neutral">Not a member yet</span>`}</div></div>
-                ${role ? html`<a href="#/app">${icon('dash')} Dashboard</a><a href="#/app/profile">${icon('user')} My profile</a>` : html`<a href="#/join">${icon('users')} Request to join</a>`}
+                <a href="#/app">${icon('dash')} Dashboard</a><a href="#/app/profile">${icon('user')} My profile</a>
                 ${role === 'admin' ? html`<a href="#/admin">${icon('shield')} Admin console</a>` : ''}
                 <button id="signout">${icon('logout')} Sign out</button>
               </div>
@@ -150,7 +151,7 @@ function gate(kind) {
     return { title: 'Members only', html: html`<section class="section"><div class="wrap wrap-narrow"><div class="gate">${icon('lock')}<h1 class="title-lg">Members only</h1><p class="lead">This part of the site is for club members. Sign in with your college email to continue.</p><a class="btn btn-primary" href="#/signin?next=${next}">Sign in</a></div></div></section>` };
   }
   if (!store.role) {
-    return { title: 'Not a member yet', html: html`<section class="section"><div class="wrap wrap-narrow"><div class="gate">${icon('users')}<h1 class="title-lg">You are signed in, but not on the roster</h1><p class="lead">${s?.email} has not been added as a member yet. Send a join request and an admin will take a look.</p><a class="btn btn-primary" href="#/join">Request to join</a></div></div></section>` };
+    return { title: 'Not a member yet', html: html`<section class="section"><div class="wrap wrap-narrow"><div class="gate">${icon('users')}<h1 class="title-lg">Not a club member</h1><p class="lead">${s?.email} has not been added to the member list. Ask a club admin to add it.</p><a class="btn btn-primary" href="#/join">How to join</a></div></div></section>` };
   }
   return { title: 'Admins only', html: html`<section class="section"><div class="wrap wrap-narrow"><div class="gate">${icon('shield')}<h1 class="title-lg">Admins only</h1><p class="lead">You need admin access to open this page. If you think that is a mistake, ask one of the club admins.</p><a class="btn btn-ghost" href="#/app">Back to dashboard</a></div></div></section>` };
 }

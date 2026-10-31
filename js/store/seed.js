@@ -49,7 +49,7 @@ export function buildSeed() {
     { email: 'lead.emb@' + config.emailDomain, role: 'member', name: 'Sample Lead Three', batch: '2023', branch: 'Computer Science and Engineering', bio: 'Placeholder entry for a domain lead.', skills: ['FreeRTOS', 'ESP32'], domains: ['embedded'], position: 'Lead', lead_domain: 'embedded' },
     { email: 'lead.comm@' + config.emailDomain, role: 'member', name: 'Sample Lead Four', batch: '2022', branch: 'Electrical Engineering', bio: 'Placeholder entry for a domain lead.', skills: ['GNU Radio', 'MATLAB'], domains: ['communication'], position: 'Lead', lead_domain: 'communication' },
     { email: 'member@' + config.emailDomain, role: 'member', name: 'Preview Member', roll_no: '', batch: '2024', branch: 'Computer Science and Engineering', bio: 'Signed in through the preview switcher.', skills: ['Arduino', 'Python'], domains: ['embedded', 'communication'], position: null, lead_domain: null },
-    { email: 'ee25bt004@' + config.emailDomain, role: 'member', name: null, roll_no: 'EE25BT004', batch: '2025', branch: '', bio: '', skills: [], domains: [], position: null, lead_domain: null },
+    { email: 'ee25bt004@' + config.emailDomain, role: 'member', name: 'ee25bt004', roll_no: 'EE25BT004', batch: '2025', branch: '', bio: '', skills: [], domains: [], position: null, lead_domain: null },
     { email: 'member2@' + config.emailDomain, role: 'member', name: 'Sample Member Two', batch: '2024', branch: 'Engineering Physics', bio: '', skills: ['LTspice'], domains: ['analog-vlsi'], position: null, lead_domain: null },
     { email: 'member3@' + config.emailDomain, role: 'member', name: 'Sample Member Three', batch: '2025', branch: 'Mechanical Engineering', bio: '', skills: ['CAD', 'Arduino'], domains: ['embedded'], position: null, lead_domain: null },
   ].map((m) => ({ roll_no: '', github: '', linkedin: '', avatar_url: null, joined_at: iso(-120), ...m }));
@@ -99,9 +99,6 @@ export function buildSeed() {
     rsvps: [{ event_id: 'e0', email: 'member@' + config.emailDomain }],
     profile_changes: [
       { id: 'c0', email: 'member2@' + config.emailDomain, status: 'pending', note: null, submitted_at: iso(-1, 11), reviewed_by: null, reviewed_at: null, data: { name: 'Sample Member Two', bio: 'Second year, mostly interested in amplifier design and getting the lab oscilloscope to behave.', skills: ['LTspice', 'Oscilloscope'], github: 'github.com/example' } },
-    ],
-    join_requests: [
-      { email: 'newstudent@' + config.emailDomain, name: 'New Student', message: 'Interested in embedded systems, have used Arduino for a semester.', status: 'pending', created_at: iso(-1, 9) },
     ],
     activity: [
       { id: 1, actor: admin, action: 'INSERT projects', target: '8-bit CPU on an FPGA', at: iso(-20, 12) },

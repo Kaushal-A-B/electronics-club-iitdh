@@ -1,7 +1,7 @@
 import { html, icon, ago } from '../../util.js';
 import { describe } from './activity.js';
 
-export default async function overview({ store, session, pending, joins }) {
+export default async function overview({ store, session, pending }) {
   const [members, projects, photos, events, activity] = await Promise.all([store.members(), store.projects(), store.photos(), store.events(), store.activity()]);
   const admins = members.filter((m) => m.role === 'admin').length;
 
@@ -11,7 +11,7 @@ export default async function overview({ store, session, pending, joins }) {
     ['Projects', projects.length, 'folder', '#/admin/projects'],
     ['Photos', photos.length, 'image', '#/admin/gallery'],
     ['Events', events.length, 'calendar', '#/admin/events'],
-    ['Waiting for review', pending.length + joins.length, 'inbox', '#/admin/approvals'],
+    ['Waiting for review', pending.length, 'inbox', '#/admin/approvals'],
   ];
 
   return {
@@ -25,7 +25,7 @@ export default async function overview({ store, session, pending, joins }) {
           <div class="card-head"><h3>Quick actions</h3></div>
           <div class="stack" style="gap:10px">
             <a class="btn btn-soft" href="#/admin/members">${icon('users')} Add a member or admin</a>
-            <a class="btn btn-soft" href="#/admin/approvals">${icon('inbox')} Review pending requests</a>
+            <a class="btn btn-soft" href="#/admin/approvals">${icon('inbox')} Review profile changes</a>
             <a class="btn btn-soft" href="#/admin/gallery">${icon('image')} Upload photos</a>
             <a class="btn btn-soft" href="#/admin/projects">${icon('folder')} Edit projects</a>
           </div>

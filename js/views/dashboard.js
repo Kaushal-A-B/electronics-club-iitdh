@@ -4,13 +4,12 @@ import { appHeader, eventDate } from './shared.js';
 
 export default async function dashboard({ store, session, member, role }) {
   const admin = role === 'admin';
-  const [announcements, events, rsvps, change, pending, joins] = await Promise.all([
+  const [announcements, events, rsvps, change, pending] = await Promise.all([
     store.announcements(),
     store.events(),
     store.rsvps(),
     store.myChange(),
     admin ? store.pendingChanges() : [],
-    admin ? store.joinRequests() : [],
   ]);
 
   const now = Date.now();
@@ -19,13 +18,14 @@ export default async function dashboard({ store, session, member, role }) {
   const first = (member?.name || session.name || '').split(' ')[0];
 
   const fields = ['name', 'bio', 'branch', 'batch'];
-  const filled = fields.filter((k) => member?.[k]).length + ((member?.domains || []).length ? 1 : 0) + ((member?.skills || []).length ? 1 : 0);
+  const emailName = session.email.split('@')[0];
+  const filled = fields.filter((k) => member?.[k] && !(k === 'name' && member[k] === emailName)).length + ((member?.domains || []).length ? 1 : 0) + ((member?.skills || []).length ? 1 : 0);
   const pct = Math.round((filled / (fields.length + 2)) * 100);
 
   let status;
   if (change?.status === 'pending') status = html`<span class="badge pending">Changes waiting for approval</span>`;
   else if (change?.status === 'rejected') status = html`<span class="badge bad">Last change was not approved</span>`;
-  else if (!member?.name) status = html`<span class="badge neutral">Profile not started</span>`;
+  else if (!member?.name || member.name === emailName) status = html`<span class="badge neutral">Profile not started</span>`;
   else status = html`<span class="badge ok">Profile approved</span>`;
 
   return {
@@ -33,8 +33,8 @@ export default async function dashboard({ store, session, member, role }) {
     html: html`
       ${appHeader('/app', `Hello, ${first || 'there'}`, 'Here is what is happening in the club.', admin ? html`<a class="btn btn-ghost btn-sm" href="#/admin">${icon('shield')} Admin console</a>` : '')}
       <section class="wrap dash-grid">
-        ${admin && (pending.length || joins.length) ? html`
-          <a class="notice info dash-alert reveal" href="#/admin/approvals" style="grid-column:1/-1">${icon('inbox')}<div><b>Needs your attention.</b> ${pending.length} profile ${pending.length === 1 ? 'change' : 'changes'} and ${joins.length} join ${joins.length === 1 ? 'request' : 'requests'} waiting for review.</div></a>` : ''}
+        ${admin && pending.length ? html`
+          <a class="notice info dash-alert reveal" href="#/admin/approvals" style="grid-column:1/-1">${icon('inbox')}<div><b>Needs your attention.</b> ${pending.length} profile ${pending.length === 1 ? 'change is' : 'changes are'} waiting for review.</div></a>` : ''}
 
         <div class="card profile-card reveal">
           <div class="row" style="gap:18px">${avatar({ name: member?.name || session.name, avatar_url: member?.avatar_url }, 'md')}
@@ -43,7 +43,7 @@ export default async function dashboard({ store, session, member, role }) {
           <div class="meter" aria-label="Profile ${pct}% complete"><span style="width:${pct}%"></span></div>
           <p class="muted small">Profile ${pct}% complete</p>
           ${change?.status === 'rejected' && change.note ? html`<div class="notice bad" style="margin-top:14px">${icon('alert')}<div><b>Admin note:</b> ${change.note}</div></div>` : ''}
-          <a class="btn btn-soft btn-sm" href="#/app/profile" style="margin-top:18px">${icon('edit')} ${member?.name ? 'Edit profile' : 'Set up profile'}</a>
+          <a class="btn btn-soft btn-sm" href="#/app/profile" style="margin-top:18px">${icon('edit')} ${member?.name && member.name !== emailName ? 'Edit profile' : 'Set up profile'}</a>
         </div>
 
         <div class="card reveal" data-delay="1">

@@ -31,9 +31,9 @@ export default async function admin(ctx) {
     return { title: 'Admin', html: html`<section class="section"><div class="wrap wrap-narrow"><div class="gate">${icon('shield')}<h1 class="title-lg">Unknown admin page</h1><a class="btn btn-primary" href="#/admin">Back to overview</a></div></div></section>` };
   }
 
-  const [mod, pending, joins] = await Promise.all([loaders[section](), ctx.store.pendingChanges(), ctx.store.joinRequests()]);
-  const waiting = pending.length + joins.length;
-  const inner = await mod.default({ ...ctx, section, pending, joins });
+  const [mod, pending] = await Promise.all([loaders[section](), ctx.store.pendingChanges()]);
+  const waiting = pending.length;
+  const inner = await mod.default({ ...ctx, section, pending });
 
   return {
     title: `Admin: ${SECTIONS.find((s) => s[0] === section)[1]}`,

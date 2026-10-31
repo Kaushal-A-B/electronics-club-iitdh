@@ -9,17 +9,17 @@ It is a static site, so it is hosted on GitHub Pages for free. The small amount 
 | | Visitor (no login) | Member | Admin |
 |---|---|---|---|
 | Home, domains, projects, gallery, events, team | yes | yes | yes |
-| Sign in with an `@iitdh.ac.in` account | | yes | yes |
+| Sign in (only emails an admin has added) | | yes | yes |
 | RSVP to events, member directory, announcements, resource library | | yes | yes |
 | Edit own profile (goes to an admin for approval) | | yes | yes |
 | Add or remove members and admins, set secretary, deputy and leads | | | yes |
-| Approve profile changes and join requests | | | yes |
+| Approve profile changes | | | yes |
 | Add, edit or delete projects, photos, events, announcements, resources | | | yes |
 | Activity log | | | yes |
 
 Admins also get Edit and Delete buttons directly on the public Projects, Gallery and Events pages.
 
-How joining works: a student signs in with their college Google account, sends a join request, and an admin adds them to the roster (or an admin adds them directly by email). The first profile and every later edit is reviewed by an admin before it is shown to anyone else.
+How joining works: membership is by invitation. An admin adds a student's college email on the Members and admins page of the Admin console. Only emails on that list can sign in, anyone else is turned away with a message, and the database refuses to create an account for them. A new member's name starts as the first part of their email, and their first profile and every later edit is reviewed by an admin before it is shown to anyone else.
 
 ## Preview mode
 

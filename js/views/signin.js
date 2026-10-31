@@ -1,4 +1,4 @@
-﻿import { html, raw, icon, logoMark, $ } from '../util.js';
+import { html, raw, icon, logoMark, $ } from '../util.js';
 import { config } from '../config.js';
 import { go } from '../router.js';
 import { toast } from '../ui.js';
@@ -17,17 +17,17 @@ export default async function signin({ store, session, query }) {
         <div class="auth-card card">
           ${logoMark('auth-mark')}
           <h1 class="title-md">Sign in to the club site</h1>
-          <p class="muted">Members and admins sign in with their <b>@${config.emailDomain}</b> Google account. Everyone else can browse the public pages without signing in.</p>
+          <p class="muted">Sign in with your <b>@${config.emailDomain}</b> Google account. Only emails an admin has added to the member list get in. Everyone else can still browse the public pages.</p>
           ${live
             ? html`<button class="btn btn-ghost btn-block google" id="google">${GOOGLE_G} Continue with Google</button>
-                   <p class="faint small">Accounts outside ${config.college} are turned away automatically.</p>`
+                   <p class="faint small">Any other email is turned away with a message.</p>`
             : html`<div class="notice info">${icon('info')}<div>Preview mode. Pick a role to look around, no password needed.</div></div>
                    <div class="stack" style="gap:10px">
                      <button class="btn btn-primary btn-block" data-role="admin">${icon('shield')} Continue as admin</button>
                      <button class="btn btn-ghost btn-block" data-role="member">${icon('user')} Continue as member</button>
-                     <button class="btn btn-ghost btn-block" data-role="visitor">${icon('users')} Signed in, not a member yet</button>
+                     <button class="btn btn-ghost btn-block" data-role="visitor">${icon('users')} Try an email that is not on the list</button>
                    </div>`}
-          <a href="#/join" class="small" style="color:var(--cyan)">How do I become a member?</a>
+          <a href="#/join" class="small" style="color:var(--cyan)">How do I get added?</a>
         </div>
       </section>`,
     after(root) {
@@ -38,7 +38,7 @@ export default async function signin({ store, session, query }) {
       });
       root.querySelectorAll('[data-role]').forEach((b) =>
         b.addEventListener('click', () => {
-          go(b.dataset.role === 'visitor' ? '/join' : next);
+          if (b.dataset.role !== 'visitor') go(next);
           store.previewSignIn(b.dataset.role);
         })
       );

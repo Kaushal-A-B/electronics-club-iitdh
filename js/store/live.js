@@ -3,6 +3,7 @@ import { uid, resizeImage } from '../util.js';
 
 const SDK = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
 const BUCKET = 'media';
+const DENIED = 'Only club members can sign in. Ask a club admin to add your @iitdh.ac.in email.';
 const PROFILE_KEYS = ['name', 'roll_no', 'branch', 'batch', 'bio', 'skills', 'domains', 'github', 'linkedin', 'avatar_url'];
 
 function friendly(err) {
@@ -32,18 +33,19 @@ export async function createLiveStore() {
 
   async function refresh(session) {
     const user = session?.user || null;
-    if (user && !user.email?.toLowerCase().endsWith('@' + config.emailDomain)) {
-      state.error = `Only @${config.emailDomain} accounts can sign in.`;
-      await sb.auth.signOut();
-      state.user = null; state.member = null;
-      emit();
-      return;
-    }
     state.user = user;
     state.member = null;
     if (user) {
       const { data } = await sb.from('members').select('*').eq('email', user.email.toLowerCase()).maybeSingle();
-      state.member = data;
+      const college = user.email.toLowerCase().endsWith('@' + config.emailDomain);
+      if (!data || !college) {
+        // signed in with google but nobody added this email to the roster
+        state.error = DENIED;
+        await sb.auth.signOut();
+        state.user = null;
+      } else {
+        state.member = data;
+      }
     }
     emit();
   }
@@ -55,7 +57,7 @@ export async function createLiveStore() {
       // oauth failures come back as query or hash params
       const desc = new URLSearchParams(location.search).get('error_description');
       if (desc) {
-        state.error = /domain|iitdh|database error/i.test(desc) ? `Only @${config.emailDomain} accounts can sign in.` : desc.replace(/\+/g, ' ');
+        state.error = /domain|iitdh|member|database error/i.test(desc) ? DENIED : desc.replace(/\+/g, ' ');
       }
       const { data } = await sb.auth.getSession();
       await refresh(data.session);
@@ -72,7 +74,7 @@ export async function createLiveStore() {
       return {
         id: u.id,
         email: u.email.toLowerCase(),
-        name: state.member?.name || u.user_metadata?.full_name || u.email.split('@')[0],
+        name: state.member?.name || u.email.split('@')[0],
         avatar_url: state.member?.avatar_url || u.user_metadata?.avatar_url || null,
       };
     },
@@ -130,15 +132,6 @@ export async function createLiveStore() {
       return changes.map((c) => ({ ...c, current: members.find((m) => m.email === c.email) || {} }));
     },
     reviewChange: (id, approve, note) => run(sb.rpc('review_profile_change', { change_id: id, approve, note: note || null })),
-
-    /* join requests */
-    async myJoinRequest() {
-      return run(sb.from('join_requests').select('*').eq('email', state.user.email.toLowerCase()).maybeSingle());
-    },
-    requestJoin: ({ name, message }) =>
-      run(sb.from('join_requests').upsert({ email: state.user.email.toLowerCase(), name, message, status: 'pending' })),
-    joinRequests: () => run(sb.from('join_requests').select('*').eq('status', 'pending').order('created_at')),
-    resolveJoin: (email, approve) => run(sb.rpc('resolve_join_request', { p_email: email, p_approve: approve })),
 
     /* admin writes */
     saveProject: (p) => save('projects', p),

@@ -69,14 +69,6 @@ create table if not exists public.profile_changes (
 create unique index if not exists one_pending_change_per_member
   on public.profile_changes (email) where status = 'pending';
 
-create table if not exists public.join_requests (
-  email       text primary key check (email = lower(email)),
-  name        text not null check (char_length(name) <= 80),
-  message     text check (char_length(message) <= 600),
-  status      text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
-  created_at  timestamptz not null default now()
-);
-
 create table if not exists public.projects (
   id           uuid primary key default gen_random_uuid(),
   title        text not null check (char_length(title) <= 120),
@@ -152,14 +144,15 @@ create table if not exists public.activity_log (
 );
 
 -- ---------------------------------------------------------------------------
--- only college accounts can ever exist
+-- only people an admin has added to the roster can ever create an account
 -- ---------------------------------------------------------------------------
 
 create or replace function public.enforce_college_email() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  if lower(coalesce(new.email, '')) not like '%@iitdh.ac.in' then
-    raise exception 'Only iitdh.ac.in accounts can sign in';
+  if lower(coalesce(new.email, '')) not like '%@iitdh.ac.in'
+     or not exists (select 1 from public.members where email = lower(new.email)) then
+    raise exception 'Only club members can sign in';
   end if;
   return new;
 end
@@ -169,6 +162,22 @@ drop trigger if exists college_email_only on auth.users;
 create trigger college_email_only
   before insert or update of email on auth.users
   for each row execute function public.enforce_college_email();
+
+-- a member without a name shows up under the first part of their email
+create or replace function public.default_member_name() returns trigger
+language plpgsql as $$
+begin
+  if new.name is null or btrim(new.name) = '' then
+    new.name := split_part(new.email, '@', 1);
+  end if;
+  return new;
+end
+$$;
+
+drop trigger if exists member_default_name on public.members;
+create trigger member_default_name
+  before insert or update on public.members
+  for each row execute function public.default_member_name();
 
 -- ---------------------------------------------------------------------------
 -- never lock the club out of its own admin console
@@ -284,25 +293,6 @@ begin
 end
 $$;
 
-create or replace function public.resolve_join_request(p_email text, p_approve boolean) returns void
-language plpgsql security definer set search_path = public as $$
-declare r public.join_requests;
-begin
-  if not public.is_admin() then raise exception 'Admins only'; end if;
-
-  select * into r from public.join_requests where email = lower(p_email) and status = 'pending';
-  if not found then return; end if;
-
-  if p_approve then
-    insert into public.members (email, role, name, added_by)
-    values (r.email, 'member', r.name, public.auth_email())
-    on conflict (email) do nothing;
-  end if;
-
-  update public.join_requests set status = case when p_approve then 'approved' else 'rejected' end where email = r.email;
-end
-$$;
-
 -- numbers for the public home page, nothing personal in here
 create or replace function public.public_stats() returns jsonb
 language sql stable security definer set search_path = public as $$
@@ -322,10 +312,8 @@ create or replace view public.public_team as
 
 revoke execute on function public.submit_profile_change(jsonb) from public, anon;
 revoke execute on function public.review_profile_change(uuid, boolean, text) from public, anon;
-revoke execute on function public.resolve_join_request(text, boolean) from public, anon;
 grant execute on function public.submit_profile_change(jsonb) to authenticated;
 grant execute on function public.review_profile_change(uuid, boolean, text) to authenticated;
-grant execute on function public.resolve_join_request(text, boolean) to authenticated;
 grant execute on function public.public_stats() to anon, authenticated;
 grant select on public.public_team to anon, authenticated;
 
@@ -335,7 +323,6 @@ grant select on public.public_team to anon, authenticated;
 
 alter table public.members         enable row level security;
 alter table public.profile_changes enable row level security;
-alter table public.join_requests   enable row level security;
 alter table public.projects        enable row level security;
 alter table public.photos          enable row level security;
 alter table public.events          enable row level security;
@@ -360,14 +347,6 @@ create policy members_admin on public.members for all    to authenticated using 
 -- profile changes: you see your own, admins see all, writes go through the functions above
 create policy changes_read on public.profile_changes for select to authenticated
   using (email = public.auth_email() or public.is_admin());
-
--- join requests: anyone signed in can ask once, only for themselves
-create policy join_read   on public.join_requests for select to authenticated using (email = public.auth_email() or public.is_admin());
-create policy join_insert on public.join_requests for insert to authenticated
-  with check (email = public.auth_email() and status = 'pending' and not public.is_member());
-create policy join_update on public.join_requests for update to authenticated
-  using (email = public.auth_email()) with check (email = public.auth_email() and status = 'pending');
-create policy join_admin  on public.join_requests for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 -- public content: anyone can read, admins write
 create policy projects_read  on public.projects for select to anon, authenticated using (true);
@@ -440,3 +419,12 @@ on conflict (email) do update
 insert into public.members (email, role, roll_no, batch)
 values ('ee25bt004@iitdh.ac.in', 'member', 'EE25BT004', '2025')
 on conflict (email) do nothing;
+
+-- ---------------------------------------------------------------------------
+-- cleanup
+-- ---------------------------------------------------------------------------
+
+drop function if exists public.resolve_join_request(text, boolean);
+drop table if exists public.join_requests;
+
+update public.members set name = split_part(email, '@', 1) where name is null or btrim(name) = '';

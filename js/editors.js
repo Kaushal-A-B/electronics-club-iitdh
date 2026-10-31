@@ -1,6 +1,6 @@
 import { store } from './store/index.js';
 import { config } from './config.js';
-import { DOMAINS, POSITIONS } from './domains.js';
+import { DOMAINS, POSITIONS, BRANCHES } from './domains.js';
 import { openForm, openModal, toast } from './ui.js';
 import { esc, $, icon } from './util.js';
 
@@ -177,7 +177,8 @@ export function editMember(member) {
     submitLabel: editing ? 'Save changes' : 'Add to roster',
     fields: [
       { name: 'email', label: 'College email', type: 'email', required: true, readonly: editing, full: true, placeholder: `name@${config.emailDomain}` },
-      { name: 'name', label: 'Name', max: 80, hint: 'Optional, they can set it themselves.' },
+      { name: 'name', label: 'Name', max: 80, hint: 'Leave empty to use the first part of their email.' },
+      { name: 'branch', label: 'Branch', type: 'select', options: BRANCHES, blank: 'Not set' },
       { name: 'role', label: 'Access level', type: 'select', required: true, options: [{ value: 'member', label: 'Member' }, { value: 'admin', label: 'Admin' }] },
       { name: 'position', label: 'Club position', type: 'select', options: POSITIONS, blank: 'None' },
       { name: 'lead_domain', label: 'Lead of', type: 'select', options: DOMAINS.map((d) => ({ value: d.slug, label: d.name })), blank: 'Not a lead', hint: 'Only used when the position is Lead.' },
@@ -187,6 +188,7 @@ export function editMember(member) {
       if (!email.endsWith('@' + config.emailDomain)) throw new Error(`Use a @${config.emailDomain} address.`);
       if (v.position === 'Lead' && !v.lead_domain) throw new Error('Pick the domain this person leads.');
       if (v.position !== 'Lead') v.lead_domain = null;
+      if (!v.name) v.name = email.split('@')[0];
       if (editing) {
         const { email: _drop, ...patch } = v;
         await store.updateMember(member.email, patch);

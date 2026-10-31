@@ -10,6 +10,7 @@ const PROFILE_KEYS = ['name', 'roll_no', 'branch', 'batch', 'bio', 'skills', 'do
 export async function createPreviewStore() {
   let db;
   let sessionEmail = null;
+  let error = null;
   const listeners = new Set();
 
   const persist = () => {
@@ -78,8 +79,10 @@ export async function createPreviewStore() {
     async signIn() { throw new Error('Pick a role on the sign in page while in preview mode.'); },
     previewSignIn(kind) {
       sessionEmail = kind === 'admin' ? config.previewAdmin : kind === 'member' ? 'member@' + config.emailDomain : 'visitor@' + config.emailDomain;
+      if (!me()) { sessionEmail = null; error = 'Only club members can sign in. Ask a club admin to add your @iitdh.ac.in email.'; }
       persist(); emit();
     },
+    takeError() { const e = error; error = null; return e; },
     async signOut() { sessionEmail = null; persist(); emit(); },
     resetPreview() { localStorage.removeItem(KEY); restore(); emit(); },
 
@@ -137,27 +140,6 @@ export async function createPreviewStore() {
       persist();
     },
 
-    /* join requests */
-    async myJoinRequest() { return clone(db.join_requests.find((r) => r.email === sessionEmail) || null); },
-    async requestJoin({ name, message }) {
-      if (!sessionEmail) throw new Error('Sign in first.');
-      db.join_requests = db.join_requests.filter((r) => r.email !== sessionEmail);
-      db.join_requests.push({ email: sessionEmail, name, message, status: 'pending', created_at: new Date().toISOString() });
-      persist();
-    },
-    async joinRequests() { needRole('admin'); return clone(db.join_requests.filter((r) => r.status === 'pending')); },
-    async resolveJoin(email, approve) {
-      needRole('admin');
-      const r = db.join_requests.find((x) => x.email === email);
-      if (!r) return;
-      r.status = approve ? 'approved' : 'rejected';
-      if (approve && !db.members.some((m) => m.email === email)) {
-        db.members.push({ email, role: 'member', name: r.name, roll_no: '', batch: '', branch: '', bio: '', skills: [], domains: [], github: '', linkedin: '', avatar_url: null, position: null, lead_domain: null, joined_at: new Date().toISOString() });
-        log('INSERT members', email);
-      }
-      persist();
-    },
-
     /* admin writes */
     saveProject: (p) => saveRow('projects', 'title', p),
     deleteProject: (id) => removeRow('projects', 'title', id),
@@ -174,7 +156,7 @@ export async function createPreviewStore() {
       needRole('admin');
       const email = m.email.trim().toLowerCase();
       if (db.members.some((x) => x.email === email)) throw new Error('That person is already on the roster.');
-      db.members.push({ roll_no: '', batch: '', branch: '', bio: '', skills: [], domains: [], github: '', linkedin: '', avatar_url: null, name: null, position: null, lead_domain: null, ...m, email, joined_at: new Date().toISOString() });
+      db.members.push({ roll_no: '', batch: '', branch: '', bio: '', skills: [], domains: [], github: '', linkedin: '', avatar_url: null, position: null, lead_domain: null, ...m, name: m.name || email.split('@')[0], email, joined_at: new Date().toISOString() });
       log('INSERT members', email);
       persist();
     },
@@ -183,6 +165,7 @@ export async function createPreviewStore() {
       const m = db.members.find((x) => x.email === email);
       if (m.role === 'admin' && patch.role === 'member' && db.members.filter((x) => x.role === 'admin').length < 2) throw new Error('There has to be at least one admin.');
       Object.assign(m, patch);
+      if (!m.name) m.name = email.split('@')[0];
       log('UPDATE members', email);
       persist();
     },

@@ -60,5 +60,6 @@ export const BRANCHES = [
   'Engineering Physics',
   'Materials Engineering',
   'Mathematics and Computing',
+  'BSMS',
   'Other',
 ];
